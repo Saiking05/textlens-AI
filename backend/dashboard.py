@@ -145,12 +145,17 @@ if len(text_columns)==0:
 
     st.stop()
 
+default_index = 0
+
+if "post_title" in text_columns:
+    default_index = text_columns.index("post_title")
+elif "text" in text_columns:
+    default_index = text_columns.index("text")
+
 selected_column = st.sidebar.selectbox(
-
     "📝 Text Column",
-
-    text_columns
-
+    text_columns,
+    index=default_index
 )
 
 # ==========================================================
