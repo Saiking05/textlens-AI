@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
+import os
 
 from collections import Counter
 from wordcloud import WordCloud
@@ -84,12 +85,20 @@ section[data-testid="stSidebar"]{
 # LOAD DATA
 # ==========================================================
 
+
+
 @st.cache_data
 def load_default_dataset():
 
-    return pd.read_csv(
-        "data/reddit_posts.csv"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    data_path = os.path.join(
+        BASE_DIR,
+        "data",
+        "reddit_posts.csv"
     )
+
+    return pd.read_csv(data_path)
 
 
 uploaded_file = st.sidebar.file_uploader(
