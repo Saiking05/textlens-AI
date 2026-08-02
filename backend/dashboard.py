@@ -11,8 +11,11 @@ import ast
 
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-from gensim import corpora
-from gensim.models import LdaModel
+#from gensim import corpora
+#from gensim.models import LdaModel
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
 
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
@@ -1232,85 +1235,76 @@ elif page == "🧠 Topic Modeling":
         "Discover hidden topics from your uploaded dataset."
     )
 
-    sample_df = df.sample(3000, random_state=42)
-    documents = []
+    sample_df = df.sample(
+        min(3000, len(df)),
+        random_state=42
+    )
 
-    for text in sample_df[selected_column].astype(str):
+    text_data = sample_df[selected_column].astype(str)
 
-        words = re.findall(
-            r"\b[a-zA-Z]{3,}\b",
-            text.lower()
-        )
+    vectorizer = CountVectorizer(
 
-        documents.append(words)
+        stop_words="english",
 
-    dictionary = corpora.Dictionary(documents)
+        max_features=1000
 
-    corpus = [
+    )
 
-        dictionary.doc2bow(doc)
+    dtm = vectorizer.fit_transform(text_data)
 
-        for doc in documents
+    lda = LatentDirichletAllocation(
 
-    ]
+        n_components=5,
 
-    if len(dictionary) < 10:
+        random_state=42
 
-        st.warning(
-            "Dataset is too small for meaningful topic modeling."
-        )
+    )
 
-    else:
+    lda.fit(dtm)
 
-        lda = LdaModel(
+    feature_names = vectorizer.get_feature_names_out()
 
-            corpus=corpus,
+    topics = []
 
-            id2word=dictionary,
+    for idx, topic in enumerate(lda.components_):
 
-            num_topics=5,
+        top_words = [
 
-            passes=3,
+            feature_names[i]
 
-            random_state=42
+            for i in topic.argsort()[-10:][::-1]
 
-        )
+        ]
 
-        st.subheader("📌 Top Topics")
+        topics.append({
 
-        topic_table = []
+            "Topic": f"Topic {idx+1}",
 
-        for topic_id, topic in lda.print_topics():
+            "Keywords": ", ".join(top_words)
 
-            topic_table.append({
+        })
 
-                "Topic": f"Topic {topic_id+1}",
+    topic_df = pd.DataFrame(topics)
 
-                "Keywords": topic
+    st.dataframe(
 
-            })
+        topic_df,
 
-        topic_df = pd.DataFrame(topic_table)
+        use_container_width=True
 
-        st.dataframe(
+    )
 
-            topic_df,
+    st.download_button(
 
-            use_container_width=True
+        "⬇ Download Topics",
 
-        )
+        topic_df.to_csv(index=False),
 
-        st.download_button(
+        "topics.csv",
 
-            "⬇ Download Topics",
+        "text/csv"
 
-            topic_df.to_csv(index=False),
-
-            file_name="topics.csv",
-
-            mime="text/csv"
-
-        )
+    )
 
 # ==========================================================
 # SUMMARIZER
