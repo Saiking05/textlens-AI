@@ -355,23 +355,24 @@ Sumy
 
     st.subheader("📈 Dataset Statistics")
 
+   
     stats = pd.DataFrame({
 
-        "Statistic":[
-            "Rows",
-            "Columns",
-            "Missing Values",
-            "Text Column"
-        ],
+    "Statistic":[
+        "Rows",
+        "Columns",
+        "Missing Values",
+        "Text Column"
+    ],
 
-        "Value":[
-            total_rows,
-            total_columns,
-            total_missing,
-            selected_column
-        ]
+    "Value":[
+        str(total_rows),
+        str(total_columns),
+        str(total_missing),
+        str(selected_column)
+    ]
 
-    })
+})
 
     st.dataframe(
         stats,
