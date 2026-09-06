@@ -693,7 +693,7 @@ elif page == "🤖 AI Playground":
                 unique_words
             )
 
-         st.markdown("---")
+        st.markdown("---")
 
         st.download_button(
         "⬇ Download Summary",
