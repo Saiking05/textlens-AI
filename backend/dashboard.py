@@ -693,14 +693,13 @@ elif page == "🤖 AI Playground":
                 unique_words
             )
 
-            st.markdown("---")
+         st.markdown("---")
 
-           st.download_button(
+        st.download_button(
         "⬇ Download Summary",
-           summary,
-           file_name="summary.txt"
-          )
-
+        summary,
+        file_name="summary.txt"
+    )
 # ==========================================================
 # DATASET EXPLORER
 # ==========================================================
