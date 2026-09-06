@@ -611,10 +611,9 @@ elif page == "🤖 AI Playground":
         summary_text,
         file_name="summary.txt"
     )
-            except:
-
-                st.warning("Unable to generate summary.")
-
+            except Exception as e:
+               st.error(f"Summary Error: {e}")
+  
             st.markdown("---")
 
             # ==========================================
