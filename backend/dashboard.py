@@ -695,15 +695,11 @@ elif page == "🤖 AI Playground":
 
             st.markdown("---")
 
-            st.download_button(
-
-                "⬇ Download Summary",
-
-                summary_text,
-
-                file_name="summary.txt"
-
-            )
+           st.download_button(
+        "⬇ Download Summary",
+           summary,
+           file_name="summary.txt"
+          )
 
 # ==========================================================
 # DATASET EXPLORER
