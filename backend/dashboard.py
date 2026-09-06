@@ -605,7 +605,12 @@ elif page == "🤖 AI Playground":
                     summary_text="Summary could not be generated."
 
                 st.success(summary_text)
-
+  
+                st.download_button(
+        "⬇ Download Summary",
+        summary_text,
+        file_name="summary.txt"
+    )
             except:
 
                 st.warning("Unable to generate summary.")
@@ -695,11 +700,6 @@ elif page == "🤖 AI Playground":
 
         st.markdown("---")
 
-        st.download_button(
-        "⬇ Download Summary",
-        summary_text,
-        file_name="summary.txt"
-    )
 # ==========================================================
 # DATASET EXPLORER
 # ==========================================================
