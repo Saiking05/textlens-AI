@@ -3,6 +3,9 @@ import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 import os
+import nltk
+
+nltk.download("punkt_tab", quiet=True)
 
 from collections import Counter
 from wordcloud import WordCloud
