@@ -697,7 +697,7 @@ elif page == "🤖 AI Playground":
 
         st.download_button(
         "⬇ Download Summary",
-        summary,
+        summary_text,
         file_name="summary.txt"
     )
 # ==========================================================
